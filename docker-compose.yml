@@ -1,0 +1,32 @@
+services:
+  eureka:
+    image: ${HS_EUREKA_IMAGE:-mhws/hs-eureka:latest}
+    ports:
+      - ${HS_EUREKA_PORT:-8761}:8761
+
+  postgres:
+    image: postgres:16.0-alpine
+    environment:
+      POSTGRES_USER: ${HS_POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${HS_POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${HS_POSTGRES_DATABASE:-art}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/entrypoint/:/docker-entrypoint-initdb.d/
+
+  user:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - ${HS_USER_PORT:-8763}:8763
+    environment:
+      HS_USER_EUREKA_URI: http://eureka:8761/eureka
+      HS_USER_DATASOURCE_HOST: postgres
+      HS_USER_DATASOURCE_PORT: 5432
+      HS_USER_DATASOURCE_DATABASE: ${HS_POSTGRES_DATABASE:-art}
+      HS_USER_DATASOURCE_USERNAME: ${HS_POSTGRES_USERNAME}
+      HS_USER_DATASOURCE_PASSWORD: ${HS_POSTGRES_PASSWORD}
+
+volumes:
+  postgres-data:
