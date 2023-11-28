@@ -22,3 +22,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: none
     show-sql: true
+
+application:
+  security:
+    jwt:
+      secret-key: ${HS_USER_JWT_SECRET_KEY}
+      expiration: ${HS_USER_JWT_EXPIRATION}
