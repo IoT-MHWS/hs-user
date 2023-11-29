@@ -6,13 +6,10 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Builder
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode
 @Table(name = "`role`")
 public class RoleEntity {
 

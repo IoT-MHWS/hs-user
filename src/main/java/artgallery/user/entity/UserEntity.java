@@ -7,13 +7,10 @@ import lombok.*;
 import java.util.List;
 
 @Builder
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode
 @Table(name = "`user`")
 public class UserEntity {
 
@@ -29,8 +26,8 @@ public class UserEntity {
   @NotBlank(message = "must be not null")
   private String password;
 
-  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   @EqualsAndHashCode.Exclude
+  @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   @JoinTable(
     name = "user_role",
     joinColumns = {@JoinColumn(name = "user_id")},
