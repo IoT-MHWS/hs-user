@@ -29,7 +29,7 @@ services:
       - ./services/liquibase/liquibase.user.properties:/liquibase/liquibase.properties
     command: --defaults-file=/liquibase/liquibase.properties update
 
-  user:
+  users:
     build:
       context: .
       dockerfile: dockerfile
