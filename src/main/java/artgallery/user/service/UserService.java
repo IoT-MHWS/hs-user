@@ -4,6 +4,7 @@ import artgallery.user.dto.Role;
 import artgallery.user.dto.RoleDTO;
 import artgallery.user.dto.UserCreatedDTO;
 import artgallery.user.dto.UserDTO;
+import artgallery.user.dto.UserDetailsDTO;
 import artgallery.user.entity.RoleEntity;
 import artgallery.user.entity.UserEntity;
 import artgallery.user.exception.RoleAlreadyExistsException;
@@ -11,7 +12,10 @@ import artgallery.user.exception.RoleDoesNotExistException;
 import artgallery.user.exception.UserDoesNotExistException;
 import artgallery.user.repository.RoleRepository;
 import artgallery.user.repository.UserRepository;
+import artgallery.user.security.ServerUserDetails;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -20,6 +24,7 @@ import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +61,14 @@ public class UserService {
         sink.next(userEntity);
 
       }).map(entity -> new UserCreatedDTO(entity.getId(), entity.getLogin()));
+  }
+
+  public Mono<UserDetailsDTO> getUserDetails(ServerUserDetails userDetails) {
+    return Mono.just(new UserDetailsDTO(
+      userDetails.getId(),
+      userDetails.getUsername(),
+      userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+    );
   }
 
   public Mono<Void> addRole(String login, Role role) {

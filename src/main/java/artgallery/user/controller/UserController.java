@@ -3,14 +3,21 @@ package artgallery.user.controller;
 import artgallery.user.dto.RoleDTO;
 import artgallery.user.dto.UserCreatedDTO;
 import artgallery.user.dto.UserDTO;
+import artgallery.user.dto.UserDetailsDTO;
+import artgallery.user.security.ServerUserDetails;
 import artgallery.user.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -26,6 +33,14 @@ public class UserController {
     return userService.create(userDTO)
       .map(jwt -> new ResponseEntity<>(jwt, HttpStatus.OK));
   }
+
+  @GetMapping(value="/current", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Mono<ResponseEntity<UserDetailsDTO>> getDetails(@AuthenticationPrincipal UserDetails userDetails) {
+    ServerUserDetails serverUserDetails = (ServerUserDetails) userDetails;
+    return userService.getUserDetails(serverUserDetails)
+      .map(details -> new ResponseEntity<>(details, HttpStatus.OK));
+  }
+
 
   @PostMapping("/{login}/roles/add")
   @PreAuthorize("hasRole('ADMIN')")

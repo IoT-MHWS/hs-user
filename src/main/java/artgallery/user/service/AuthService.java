@@ -51,12 +51,5 @@ public class AuthService {
       .build()));
   }
 
-  public Mono<UserDetailsDTO> getUserDetails(ServerUserDetails userDetails) {
-    return Mono.just(new UserDetailsDTO(
-      userDetails.getId(),
-      userDetails.getUsername(),
-      userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-    );
-  }
 
 }
