@@ -2,14 +2,13 @@ server:
   port: 8763
 
 eureka:
-  instance:
-    appname: user
-
   client:
     service-url:
       defaultZone: ${HS_USER_EUREKA_URI:http://localhost:8761/eureka}
 
 spring:
+  application:
+    name: user
   datasource:
     url: jdbc:postgresql://${HS_USER_DATASOURCE_HOST}:${HS_USER_DATASOURCE_PORT}/${HS_USER_DATASOURCE_DATABASE}
     username: ${HS_USER_DATASOURCE_USERNAME}
@@ -22,3 +21,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate.ddl-auto: none
     show-sql: true
+
+application:
+  security:
+    jwt:
+      secret-key: ${HS_USER_JWT_SECRET_KEY}
+      expiration: ${HS_USER_JWT_EXPIRATION}
