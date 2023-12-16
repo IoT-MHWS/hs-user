@@ -8,12 +8,10 @@ services:
     image: postgres:16.0-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: example
       POSTGRES_DATABASE: db_user
-      HS_POSTGRES_USERNAME: ${HS_POSTGRES_USERNAME}
-      HS_POSTGRES_PASSWORD: ${HS_POSTGRES_PASSWORD}
-    ports:
-      - '5432:5432'
+      HS_POSTGRES_USERNAME: hs
+      HS_POSTGRES_PASSWORD: example
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./services/postgres/entrypoint/:/docker-entrypoint-initdb.d/
@@ -23,8 +21,8 @@ services:
     depends_on:
       - postgres
     environment:
-      LIQUIBASE_COMMAND_USERNAME: ${HS_POSTGRES_USERNAME}
-      LIQUIBASE_COMMAND_PASSWORD: ${HS_POSTGRES_PASSWORD}
+      LIQUIBASE_COMMAND_USERNAME: postgres
+      LIQUIBASE_COMMAND_PASSWORD: example
       LIQUIBASE_COMMAND_URL : jdbc:postgresql://postgres:5432/db_user
     volumes:
       - ./services/liquibase/changelog:/liquibase/changelog
@@ -42,10 +40,10 @@ services:
       HS_USER_DATASOURCE_HOST: postgres
       HS_USER_DATASOURCE_PORT: 5432
       HS_USER_DATASOURCE_DATABASE: db_user
-      HS_USER_DATASOURCE_USERNAME: ${HS_POSTGRES_USERNAME}
-      HS_USER_DATASOURCE_PASSWORD: ${HS_POSTGRES_PASSWORD}
-      HS_USER_JWT_EXPIRATION: 3600000
-      HS_USER_JWT_SECRET_KEY: 404E635266556A586E3272357538782F413F4428472B4B6250645
+      HS_USER_DATASOURCE_USERNAME: hs
+      HS_USER_DATASOURCE_PASSWORD: example
+      HS_USER_JWT_SECRET_KEY: H3G7wpVdJNA9hsK4zaQm6uCUZqHLg2RFKs7D8M6J9mbf
+      HS_USER_JWT_EXPIRATION: 86400000
 
 volumes:
   postgres-data:
