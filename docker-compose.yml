@@ -15,11 +15,18 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./services/postgres/entrypoint/:/docker-entrypoint-initdb.d/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_user"]
+      start_period: 60s
+      interval: 10s
+      timeout: 60s
+      retries: 5
 
   liquibase:
     image: liquibase/liquibase:4.24-alpine
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       LIQUIBASE_COMMAND_USERNAME: postgres
       LIQUIBASE_COMMAND_PASSWORD: example
@@ -33,6 +40,9 @@ services:
     build:
       context: .
       dockerfile: dockerfile
+    depends_on:
+      liquibase:
+        condition: service_completed_successfully
     ports:
       - ${HS_USER_PORT:-8763}:8763
     environment:
