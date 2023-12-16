@@ -2,7 +2,7 @@ services:
   eureka:
     image: ${HS_EUREKA_IMAGE:-mhws/hs-eureka:latest}
     ports:
-      - ${HS_EUREKA_PORT:-8761}:8761
+      - ${HS_EUREKA_PORT:-8305}:8761
 
   postgres:
     image: postgres:16.0-alpine
@@ -44,7 +44,7 @@ services:
       liquibase:
         condition: service_completed_successfully
     ports:
-      - ${HS_USER_PORT:-8763}:8763
+      - ${HS_USER_PORT:-8300}:8763
     environment:
       HS_USER_EUREKA_URI: http://eureka:8761/eureka
       HS_USER_DATASOURCE_HOST: postgres
