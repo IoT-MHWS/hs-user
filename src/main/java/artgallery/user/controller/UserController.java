@@ -4,7 +4,7 @@ import artgallery.user.dto.RoleDTO;
 import artgallery.user.dto.UserCreatedDTO;
 import artgallery.user.dto.UserDTO;
 import artgallery.user.dto.UserDetailsDTO;
-import artgallery.user.security.ServerUserDetails;
+import artgallery.user.configuration.ServerUserDetails;
 import artgallery.user.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

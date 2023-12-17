@@ -12,7 +12,8 @@ import artgallery.user.exception.RoleDoesNotExistException;
 import artgallery.user.exception.UserDoesNotExistException;
 import artgallery.user.repository.RoleRepository;
 import artgallery.user.repository.UserRepository;
-import artgallery.user.security.ServerUserDetails;
+import artgallery.user.configuration.ServerUserDetails;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.GrantedAuthority;

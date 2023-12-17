@@ -1,4 +1,4 @@
-package artgallery.user.security.jwt;
+package artgallery.user.configuration.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

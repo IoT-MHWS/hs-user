@@ -1,4 +1,4 @@
-package artgallery.user.security;
+package artgallery.user.configuration;
 
 import artgallery.user.entity.UserEntity;
 import lombok.AllArgsConstructor;

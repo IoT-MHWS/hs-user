@@ -1,4 +1,4 @@
-package artgallery.user.security.jwt;
+package artgallery.user.configuration.jwt;
 
 import artgallery.user.dto.TokenDTO;
 import io.jsonwebtoken.Claims;

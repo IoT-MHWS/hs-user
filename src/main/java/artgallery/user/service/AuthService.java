@@ -2,16 +2,13 @@ package artgallery.user.service;
 
 import artgallery.user.dto.TokenDTO;
 import artgallery.user.dto.UserDTO;
-import artgallery.user.dto.UserDetailsDTO;
 import artgallery.user.entity.UserEntity;
 import artgallery.user.exception.UserDoesNotExistException;
 import artgallery.user.repository.UserRepository;
-import artgallery.user.security.ServerUserDetails;
-import artgallery.user.security.jwt.JwtService;
+import artgallery.user.configuration.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;

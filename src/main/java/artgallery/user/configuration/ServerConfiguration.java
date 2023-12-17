@@ -1,4 +1,4 @@
-package artgallery.user.security;
+package artgallery.user.configuration;
 
 import artgallery.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
