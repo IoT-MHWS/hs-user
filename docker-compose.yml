@@ -12,6 +12,8 @@ services:
       POSTGRES_DATABASE: db_user
       HS_POSTGRES_USERNAME: ${HS_POSTGRES_USERNAME}
       HS_POSTGRES_PASSWORD: ${HS_POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./services/postgres/entrypoint/:/docker-entrypoint-initdb.d/
@@ -42,6 +44,8 @@ services:
       HS_USER_DATASOURCE_DATABASE: db_user
       HS_USER_DATASOURCE_USERNAME: ${HS_POSTGRES_USERNAME}
       HS_USER_DATASOURCE_PASSWORD: ${HS_POSTGRES_PASSWORD}
+      HS_USER_JWT_EXPIRATION: 3600000
+      HS_USER_JWT_SECRET_KEY: 404E635266556A586E3272357538782F413F4428472B4B6250645
 
 volumes:
   postgres-data:

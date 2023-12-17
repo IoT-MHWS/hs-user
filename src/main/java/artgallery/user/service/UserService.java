@@ -76,58 +76,71 @@ public class UserService {
     return Mono.just(login)
       .subscribeOn(Schedulers.boundedElastic())
       .<UserEntity>handle((val, sink) -> {
-        var userEntityOpt = userRepository.findByLogin(login);
-        if (userEntityOpt.isEmpty()) {
-          sink.error(new UserDoesNotExistException(login));
-          return;
+        try {
+          UserEntity entity = addRoleBlocking(login, role);
+          sink.next(entity);
+        } catch (Exception ex) {
+          sink.error(ex);
         }
-        var roleEntityOpt = roleRepository.findByName(role.name());
-        if (roleEntityOpt.isEmpty()) {
-          sink.error(new RoleDoesNotExistException(role));
-          return;
-        }
-
-        var userEntity = userEntityOpt.get();
-        var roleEntity = roleEntityOpt.get();
-
-        if (userEntity.getRoles().contains(roleEntity)) {
-          sink.error(new RoleAlreadyExistsException(role));
-          return;
-        }
-
-        userEntity.getRoles().add(roleEntity);
-        userRepository.save(userEntity);
-        sink.next(userEntity);
       }).then();
+  }
+
+  @Transactional
+  private UserEntity addRoleBlocking(String login, Role role) {
+    var userEntityOpt = userRepository.findByLogin(login);
+    if (userEntityOpt.isEmpty()) {
+      throw new UserDoesNotExistException(login);
+    }
+    var roleEntityOpt = roleRepository.findByName(role.name());
+    if (roleEntityOpt.isEmpty()) {
+      throw new RoleDoesNotExistException(role);
+    }
+
+    var userEntity = userEntityOpt.get();
+    var roleEntity = roleEntityOpt.get();
+
+    if (userEntity.getRoles().contains(roleEntity)) {
+      throw new RoleAlreadyExistsException(role);
+    }
+
+    userEntity.getRoles().add(roleEntity);
+    roleRepository.save(roleEntity);
+    return userRepository.save(userEntity);
   }
 
   public Mono<Void> removeRole(String login, Role role) {
     return Mono.just(login)
       .subscribeOn(Schedulers.boundedElastic())
       .<UserEntity>handle((val, sink) -> {
-        var userEntityOpt = userRepository.findByLogin(login);
-        if (userEntityOpt.isEmpty()) {
-          sink.error(new UserDoesNotExistException(login));
-          return;
+        try {
+          UserEntity entity = removeRoleBlocking(login, role);
+          sink.next(entity);
+        } catch (Exception ex) {
+          sink.error(ex);
         }
-        var roleEntityOpt = roleRepository.findByName(role.name());
-        if (roleEntityOpt.isEmpty()) {
-          sink.error(new RoleDoesNotExistException(role));
-          return;
-        }
-
-        var userEntity = userEntityOpt.get();
-        var roleEntity = roleEntityOpt.get();
-
-        if (!userEntity.getRoles().contains(roleEntity)) {
-          sink.error(new RoleDoesNotExistException(role));
-          return;
-        }
-
-        userEntity.getRoles().remove(roleEntity);
-        userRepository.save(userEntity);
-        sink.next(userEntity);
       }).then();
+  }
+
+  @Transactional
+  private UserEntity removeRoleBlocking(String login, Role role) {
+    var userEntityOpt = userRepository.findByLogin(login);
+    if (userEntityOpt.isEmpty()) {
+      throw new UserDoesNotExistException(login);
+    }
+    var roleEntityOpt = roleRepository.findByName(role.name());
+    if (roleEntityOpt.isEmpty()) {
+      throw new RoleDoesNotExistException(role);
+    }
+
+    var userEntity = userEntityOpt.get();
+    var roleEntity = roleEntityOpt.get();
+
+    if (!userEntity.getRoles().contains(roleEntity)) {
+      throw new RoleDoesNotExistException(role);
+    }
+
+    userEntity.getRoles().remove(roleEntity);
+    return userRepository.save(userEntity);
   }
 
   public Flux<RoleDTO> getRoles(String login) {
