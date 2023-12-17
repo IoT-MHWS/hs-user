@@ -9,7 +9,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: 4
+                  valueComputed: DEFAULT
               - column:
                   name: name
                   value: "PUBLIC"
@@ -18,7 +18,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: 3
+                  valueComputed: DEFAULT
               - column:
                   name: name
                   value: "MODERATOR"
@@ -27,7 +27,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: 2
+                  valueComputed: DEFAULT
               - column:
                   name: name
                   value: "ADMIN"
@@ -36,7 +36,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: 1
+                  valueComputed: DEFAULT
               - column:
                   name: name
                   value: "SUPERVISOR"
@@ -45,7 +45,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: 1
+                  valueComputed: DEFAULT
               - column:
                   name: login
                   value: "root"

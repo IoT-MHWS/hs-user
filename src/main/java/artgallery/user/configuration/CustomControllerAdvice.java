@@ -2,6 +2,7 @@ package artgallery.user.configuration;
 
 import artgallery.user.exception.DatabaseConflictException;
 import artgallery.user.exception.DoesNotExistException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,12 +13,6 @@ import org.springframework.web.reactive.result.method.annotation.ResponseEntityE
 
 @ControllerAdvice
 public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
-
-  @ResponseBody
-  @ExceptionHandler({BadCredentialsException.class})
-  public ResponseEntity<?> handleUnauthorized() {
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-  }
 
   @ResponseBody
   @ExceptionHandler({DoesNotExistException.class})
