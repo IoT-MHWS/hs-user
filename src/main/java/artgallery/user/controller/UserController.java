@@ -1,9 +1,6 @@
 package artgallery.user.controller;
 
-import artgallery.user.dto.RoleDTO;
-import artgallery.user.dto.UserCreatedDTO;
-import artgallery.user.dto.UserDTO;
-import artgallery.user.dto.UserDetailsDTO;
+import artgallery.user.dto.*;
 import artgallery.user.configuration.ServerUserDetails;
 import artgallery.user.service.UserService;
 import jakarta.validation.Valid;
@@ -31,7 +28,7 @@ public class UserController {
   @PreAuthorize("hasRole('SUPERVISOR')")
   public Mono<ResponseEntity<UserCreatedDTO>> create(@RequestBody @Valid UserDTO userDTO) {
     return userService.create(userDTO)
-      .map(jwt -> new ResponseEntity<>(jwt, HttpStatus.OK));
+      .map(jwt -> new ResponseEntity<>(jwt, HttpStatus.CREATED));
   }
 
   @GetMapping(value="/current", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,20 +39,20 @@ public class UserController {
   }
 
 
-  @PostMapping("/{login}/roles/add")
-  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/{login}/roles/")
+  @PreAuthorize("hasRole('ADMIN') or hasRole('SUPERVISOR')")
   public Mono<ResponseEntity<?>> addRole(@PathVariable("login") @NotNull String login,
                                          @RequestBody @NotNull RoleDTO role) {
     return userService.addRole(login, role.getRole())
-      .then(Mono.fromCallable(() -> new ResponseEntity<>(HttpStatus.OK)));
+      .then(Mono.fromCallable(() -> new ResponseEntity<>(HttpStatus.CREATED)));
   }
 
-  @PostMapping("/{login}/roles/remove")
-  @PreAuthorize("hasRole('ADMIN')")
+  @DeleteMapping("/{login}/roles/{role}/")
+  @PreAuthorize("hasRole('ADMIN') or hasRole('SUPERVISOR')")
   public Mono<ResponseEntity<?>> removeRole(@PathVariable("login") @NotNull String login,
-                                            @RequestBody @NotNull RoleDTO role) {
-    return userService.removeRole(login, role.getRole())
-      .then(Mono.fromCallable(() -> new ResponseEntity<>(HttpStatus.OK)));
+                                            @PathVariable("role") @NotNull String roleName) {
+    return userService.removeRole(login, Role.valueOf(roleName))
+      .then(Mono.fromCallable(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT)));
   }
 
   @GetMapping("/{login}/roles")
@@ -63,5 +60,4 @@ public class UserController {
     return userService.getRoles(login).collectList()
       .map(list -> new ResponseEntity<>(list, HttpStatus.OK));
   }
-
 }
