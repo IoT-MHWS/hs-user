@@ -1,6 +1,6 @@
 spring:
   application:
-    name: user
+    name: users
   config:
     import: optional:configserver:${CONFIGSERVER_URI:http://localhost:8888}
   cloud:
