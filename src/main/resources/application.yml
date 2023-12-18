@@ -1,5 +1,10 @@
 spring:
   application:
-    name: hs-user
+    name: user
   config:
     import: optional:configserver:${CONFIGSERVER_URI:http://localhost:8888}
+  cloud:
+    config:
+      enabled: false
+  profiles:
+    active: local
