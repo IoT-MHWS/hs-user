@@ -1,21 +1,17 @@
 package artgallery.user.service;
 
-import artgallery.user.dto.Role;
-import artgallery.user.dto.RoleDTO;
-import artgallery.user.dto.UserCreatedDTO;
-import artgallery.user.dto.UserDTO;
-import artgallery.user.dto.UserDetailsDTO;
+import artgallery.user.configuration.ServerUserDetails;
+import artgallery.user.dto.*;
 import artgallery.user.entity.RoleEntity;
 import artgallery.user.entity.UserEntity;
 import artgallery.user.exception.RoleAlreadyExistsException;
 import artgallery.user.exception.RoleDoesNotExistException;
+import artgallery.user.exception.UserAlreadyExistsException;
 import artgallery.user.exception.UserDoesNotExistException;
 import artgallery.user.repository.RoleRepository;
 import artgallery.user.repository.UserRepository;
-import artgallery.user.configuration.ServerUserDetails;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,7 +36,7 @@ public class UserService {
       .subscribeOn(Schedulers.boundedElastic())
       .<UserEntity>handle((dto, sink) -> {
         if (userRepository.existsByLogin(dto.getLogin())) {
-          sink.error(new UserDoesNotExistException(dto.getLogin()));
+          sink.error(new UserAlreadyExistsException(dto.getLogin()));
           return;
         }
 
