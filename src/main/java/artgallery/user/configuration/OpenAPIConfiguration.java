@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
   info = @Info(
-    title = "HS server",
-    description = "Highload System server",
+    title = "HS user service",
+    description = "Highload user service",
     version = "0.0.1"
   ),
   security = {
