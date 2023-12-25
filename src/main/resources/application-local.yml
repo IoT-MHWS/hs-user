@@ -25,3 +25,16 @@ application:
     jwt:
       secret-key: ${HS_USER_JWT_SECRET_KEY}
       expiration: ${HS_USER_JWT_EXPIRATION}
+
+
+springdoc:
+  api-docs:
+    path: "/api-docs"
+  swagger-ui:
+    path: "/swagger-ui"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
