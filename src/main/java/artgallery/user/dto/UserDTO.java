@@ -17,4 +17,8 @@ public class UserDTO {
   @NotNull
   @Size(max = 255, message = "The password must less than {max} characters long")
   private String password;
+
+  @NotNull
+  @Size(max = 255, message = "The mail must less than {max} characters long")
+  private String mail;
 }
