@@ -1,6 +1,6 @@
 package artgallery.user.configuration;
 
-import artgallery.user.dto.MessageDTO;
+import artgallery.user.dto.EmailDTO;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ public class KafkaConfig {
   private String bootstrapServers;
 
   @Bean
-  public ProducerFactory<String, MessageDTO> producerFactory() {
+  public ProducerFactory<String, EmailDTO> producerFactory() {
     Map<String, Object> config = new HashMap<>();
     config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -28,7 +28,7 @@ public class KafkaConfig {
     return new DefaultKafkaProducerFactory<>(config);
   }
   @Bean
-  public KafkaTemplate<String, MessageDTO> kafkaTemplate() {
+  public KafkaTemplate<String, EmailDTO> kafkaTemplate() {
     return new KafkaTemplate<>(producerFactory());
   }
 }

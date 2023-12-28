@@ -20,7 +20,7 @@ public class UserDTO {
   private String password;
 
   @NotNull
-  @Size(max = 255, message = "The mail must less than {max} characters long")
-  @Email(message = "The mail is not correct")
-  private String mail;
+  @Size(max = 255, message = "The email must less than {max} characters long")
+  @Email(message = "The email is not correct")
+  private String email;
 }

@@ -15,5 +15,5 @@ public class UserCreatedDTO {
   @NotNull
   private String login;
   @NotNull
-  private String mail;
+  private String email;
 }
