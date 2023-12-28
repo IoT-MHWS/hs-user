@@ -54,7 +54,7 @@ databaseChangeLog:
                   value: "$2a$10$TzWL5Ev0J9dK8Q/MbZtcAOWhiN0wZ7zI/BS4vk7qjc9gxk6Oxwdye"
               - column:
                   name: email
-                  value: "root@root.rt
+                  value: "root@root.rt"
         - insert:
             tableName: user_role
             columns:
