@@ -1,5 +1,11 @@
 FROM openjdk:17-alpine
 
-COPY "build/libs/hs-user-*.jar" application.jar
+RUN mkdir -p /app/services
+
+WORKDIR /app
+
+COPY "build/libs/hs-users-*-SNAPSHOT.jar" ./application.jar
+
+COPY "services/" ./services/
 
 ENTRYPOINT ["java", "-jar", "application.jar"]

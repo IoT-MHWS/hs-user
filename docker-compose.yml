@@ -18,7 +18,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
       - ./services/postgres/entrypoint/:/docker-entrypoint-initdb.d/
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_user"]
+      test: ["CMD-SHELL", "pg_isready -U postgres", "-d", "db_user"]
       start_period: 60s
       interval: 10s
       timeout: 60s
@@ -35,7 +35,7 @@ services:
       LIQUIBASE_COMMAND_URL : jdbc:postgresql://postgres:5432/db_user
     volumes:
       - ./services/liquibase/changelog:/liquibase/changelog
-      - ./services/liquibase/liquibase.user.properties:/liquibase/liquibase.properties
+      - ./services/liquibase/liquibase.users.properties:/liquibase/liquibase.properties
     command: --defaults-file=/liquibase/liquibase.properties update
 
   users:
