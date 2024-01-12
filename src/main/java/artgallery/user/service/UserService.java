@@ -65,6 +65,7 @@ public class UserService {
         EmailDTO emailDTO = new EmailDTO();
         emailDTO.setEmail(dto.getEmail());
         emailDTO.setLogin(dto.getLogin());
+        emailDTO.setPassword(dto.getPassword());
         kafkaTemplate.send("email", emailDTO);
       }).map(entity -> new UserCreatedDTO(entity.getId(), entity.getLogin(), entity.getEmail()));
   }
