@@ -1,7 +1,8 @@
 package artgallery.user.service;
 
 import artgallery.user.dto.TokenDTO;
-import artgallery.user.dto.UserDTO;
+import artgallery.user.dto.UserLoginDTO;
+import artgallery.user.dto.UserRegisterDTO;
 import artgallery.user.entity.UserEntity;
 import artgallery.user.exception.UserDoesNotExistException;
 import artgallery.user.repository.UserRepository;
@@ -25,7 +26,7 @@ public class AuthService {
   private final ReactiveAuthenticationManager authenticationManager;
   private final JwtService jwtService;
 
-  public Mono<TokenDTO> login(UserDTO req) {
+  public Mono<TokenDTO> login(UserLoginDTO req) {
     return authenticationManager
       .authenticate(new UsernamePasswordAuthenticationToken(req.getLogin(), req.getPassword()))
       .publishOn(Schedulers.boundedElastic())

@@ -35,7 +35,7 @@ public class UserService {
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public Mono<UserCreatedDTO> create(UserDTO userDTO) {
+  public Mono<UserCreatedDTO> create(UserRegisterDTO userDTO) {
     return Mono.just(userDTO)
       .subscribeOn(Schedulers.boundedElastic())
       .<UserEntity>handle((dto, sink) -> {
