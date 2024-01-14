@@ -2,7 +2,8 @@ package artgallery.user;
 
 import artgallery.user.dto.Role;
 import artgallery.user.dto.TokenDTO;
-import artgallery.user.dto.UserDTO;
+import artgallery.user.dto.UserLoginDTO;
+import artgallery.user.dto.UserRegisterDTO;
 import artgallery.user.repository.UserRepository;
 import artgallery.user.service.AuthService;
 import artgallery.user.service.UserService;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public abstract class AuthorizedControllerTest {
   protected static String username = "user-1";
   protected static String password = "password";
+  protected static String email = "email";
 
   static protected final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -31,13 +33,17 @@ public abstract class AuthorizedControllerTest {
   static public void authorizeUser(@Autowired UserRepository userRepository, @Autowired UserService userService, @Autowired AuthService authService) throws Exception {
     userRepository.deleteAll();
 
-    UserDTO userDTO = new UserDTO();
+    UserRegisterDTO userDTO = new UserRegisterDTO();
     userDTO.setLogin(username);
     userDTO.setPassword(password);
+    userDTO.setEmail(email);
     userService.create(userDTO).block();
     userService.addRole(username, Role.SUPERVISOR).block();
 
-    tokenDTO = authService.login(userDTO).block();
+    UserLoginDTO userLoginDTO = new UserLoginDTO();
+    userLoginDTO.setLogin(userDTO.getLogin());
+    userLoginDTO.setPassword(userDTO.getPassword());
+    tokenDTO = authService.login(userLoginDTO).block();
     assertNotNull(tokenDTO);
   }
 

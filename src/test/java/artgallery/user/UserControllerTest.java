@@ -21,15 +21,16 @@ public class UserControllerTest extends AuthorizedControllerTest {
   @Autowired
   private WebTestClient webTestClient;
 
-  static private UserDTO userDTO;
+  static private UserRegisterDTO userDTO;
 
   @BeforeAll
   static void setup(@Autowired UserService userService) {
     userService.addRole(username, Role.ADMIN);
 
-    userDTO = new UserDTO();
+    userDTO = new UserRegisterDTO();
     userDTO.setLogin("username-3");
     userDTO.setPassword("password-3");
+    userDTO.setEmail("email-3");
     userService.create(userDTO).block();
   }
 
@@ -38,9 +39,10 @@ public class UserControllerTest extends AuthorizedControllerTest {
 
   @Test
   public void testRegisterUser() throws Exception {
-    UserDTO userDTO = new UserDTO();
+    UserRegisterDTO userDTO = new UserRegisterDTO();
     userDTO.setLogin("username-4");
     userDTO.setPassword("password-4");
+    userDTO.setEmail("email-4");
 
     String request = objectMapper.writeValueAsString(userDTO);
 

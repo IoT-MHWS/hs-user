@@ -1,7 +1,8 @@
 package artgallery.user.controller;
 
 import artgallery.user.dto.TokenDTO;
-import artgallery.user.dto.UserDTO;
+import artgallery.user.dto.UserLoginDTO;
+import artgallery.user.dto.UserRegisterDTO;
 import artgallery.user.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class AuthController {
   private final AuthService authService;
 
   @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Mono<ResponseEntity<TokenDTO>> login(@RequestBody @Valid UserDTO userDTO) {
+  public Mono<ResponseEntity<TokenDTO>> login(@RequestBody @Valid UserLoginDTO userDTO) {
     return authService.login(userDTO)
       .map(jwt -> new ResponseEntity<>(jwt, HttpStatus.OK));
   }

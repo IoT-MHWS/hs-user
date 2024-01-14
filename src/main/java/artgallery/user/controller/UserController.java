@@ -26,7 +26,7 @@ public class UserController {
 
   @PostMapping("/create")
   @PreAuthorize("hasRole('SUPERVISOR')")
-  public Mono<ResponseEntity<UserCreatedDTO>> create(@RequestBody @Valid UserDTO userDTO) {
+  public Mono<ResponseEntity<UserCreatedDTO>> create(@RequestBody @Valid UserRegisterDTO userDTO) {
     return userService.create(userDTO)
       .map(jwt -> new ResponseEntity<>(jwt, HttpStatus.CREATED));
   }

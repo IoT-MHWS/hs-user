@@ -1,7 +1,7 @@
 package artgallery.user;
 
 import artgallery.user.dto.TokenDTO;
-import artgallery.user.dto.UserDTO;
+import artgallery.user.dto.UserRegisterDTO;
 import artgallery.user.repository.UserRepository;
 import artgallery.user.service.AuthService;
 import artgallery.user.service.UserService;
@@ -35,14 +35,15 @@ public class AuthControllerTest {
 
   static private final ObjectMapper objectMapper = new ObjectMapper();
 
-  static private UserDTO userDTO;
+  static private UserRegisterDTO userDTO;
 
   @BeforeAll
   static void createUserDTO(@Autowired UserRepository userRepository) {
     userRepository.deleteAll();
-    userDTO = new UserDTO();
+    userDTO = new UserRegisterDTO();
     userDTO.setLogin("username-2");
     userDTO.setPassword("password-2");
+    userDTO.setEmail("email-2");
   }
 
   @Test
