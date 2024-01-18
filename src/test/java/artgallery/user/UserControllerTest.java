@@ -30,7 +30,7 @@ public class UserControllerTest extends AuthorizedControllerTest {
     userDTO = new UserRegisterDTO();
     userDTO.setLogin("username-3");
     userDTO.setPassword("password-3");
-    userDTO.setEmail("email-3");
+    userDTO.setEmail("email-3@mail.mail");
     userService.create(userDTO).block();
   }
 
@@ -42,7 +42,7 @@ public class UserControllerTest extends AuthorizedControllerTest {
     UserRegisterDTO userDTO = new UserRegisterDTO();
     userDTO.setLogin("username-4");
     userDTO.setPassword("password-4");
-    userDTO.setEmail("email-4");
+    userDTO.setEmail("email-4@mail.mail");
 
     String request = objectMapper.writeValueAsString(userDTO);
 
@@ -94,6 +94,25 @@ public class UserControllerTest extends AuthorizedControllerTest {
       .exchange()
       .expectStatus()
       .isEqualTo(409);
+  }
+
+  @Test
+  public void testRegisterUserBadEmail() throws Exception {
+    UserRegisterDTO userDTO = new UserRegisterDTO();
+    userDTO.setLogin("username-5");
+    userDTO.setPassword("password-5");
+    userDTO.setEmail("email-5");
+
+    String request = objectMapper.writeValueAsString(userDTO);
+    webTestClient.post()
+      .uri("/api/v1/users/create")
+      .bodyValue(request)
+      .header("Content-Type", "application/json")
+      .header("Authorization", String.format("Bearer %s", tokenDTO.getToken()))
+      .accept(MediaType.APPLICATION_JSON)
+      .exchange()
+      .expectStatus()
+      .isBadRequest();
   }
 
   @Test
